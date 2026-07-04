@@ -44,10 +44,8 @@ job_text = st.text_area(
     height=250
 )
 
-# Predict button
 if st.button("Predict"):
 
-    # Check that the user entered text
     if job_text.strip() == "":
         st.warning("Please enter a job description.")
 
@@ -59,17 +57,17 @@ if st.button("Predict"):
         # Convert text to TF-IDF features
         text_vector = vectorizer.transform([cleaned_text])
 
-       # Make prediction
-prediction = model.predict(text_vector)[0]
+        # Make prediction
+        prediction = model.predict(text_vector)[0]
 
-# Generate confidence score
-confidence = model.predict_proba(text_vector).max() * 100
+        # Generate confidence score
+        confidence = model.predict_proba(text_vector).max() * 100
 
-# Display the result
-if prediction == 0:
-    st.success("Prediction: Genuine Job")
-else:
-    st.error("Prediction: Fraudulent Job")
+        # Display the result
+        if prediction == 0:
+            st.success("Prediction: Genuine Job")
+        else:
+            st.error("Prediction: Fraudulent Job")
 
-# Display confidence score
-st.info(f"Confidence Score: {confidence:.2f}%")
+        # Display confidence score
+        st.info(f"Confidence Score: {confidence:.2f}%")
