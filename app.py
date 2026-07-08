@@ -126,76 +126,27 @@ if st.button("Predict"):
         # Generate confidence score
         confidence = model.predict_proba(text_vector).max() * 100
 
-        # ----------------------------------
-# Prediction Dashboard
-# ----------------------------------
+        # -----------------------------
+        # Prediction Results
+        # -----------------------------
 
-st.markdown("---")
-st.header("📊 Prediction Dashboard")
+        st.markdown("---")
+        st.subheader("📊 Prediction Result")
 
-# Determine labels
-prediction_label = "Genuine" if prediction == 0 else "Fraudulent"
-status = "Safe" if prediction == 0 else "High Risk"
+        if prediction == 0:
+            st.success("✅ Genuine Job Advertisement")
+        else:
+            st.error("🚨 Fraudulent Job Advertisement")
 
-# Create three columns
-col1, col2, col3 = st.columns(3)
+        st.write(f"### Model Confidence: **{confidence:.2f}%**")
 
-with col1:
-    st.metric(
-        label="Prediction",
-        value=prediction_label
-    )
+        # Confidence Progress Bar
+        st.progress(min(confidence / 100, 1.0))
 
-with col2:
-    st.metric(
-        label="Confidence",
-        value=f"{confidence:.2f}%"
-    )
-
-with col3:
-    st.metric(
-        label="Algorithm",
-        value="SVM"
-    )
-
-# Second Row
-col4, col5, col6 = st.columns(3)
-
-with col4:
-    st.metric(
-        label="Feature Extraction",
-        value="TF-IDF"
-    )
-
-with col5:
-    st.metric(
-        label="Dataset",
-        value="Fake Jobs"
-    )
-
-with col6:
-    st.metric(
-        label="Status",
-        value=status
-    )
-
-st.write("")
-
-# Progress Bar
-st.progress(min(confidence / 100, 1.0))
-
-# Colour result
-
-if prediction == 0:
-    st.success("✅ Genuine Job Advertisement")
-else:
-    st.error("🚨 Fraudulent Job Advertisement")
-
-# Confidence message
-
-if confidence >= 90:
-    st.info("🟢 High Confidence Prediction")
-elif confidence >= 70:
-    st.warning("🟡 Moderate Confidence Prediction")
-else:
-    st.error("🔴 Low Confidence Prediction")
+        # Risk Level
+        if confidence >= 90:
+            st.info("🟢 High Confidence Prediction")
+        elif confidence >= 70:
+            st.warning("🟡 Moderate Confidence Prediction")
+        else:
+            st.error("🔴 Low Confidence Prediction")
