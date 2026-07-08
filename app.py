@@ -5,6 +5,49 @@ import joblib
 import re
 import string
 
+# -------------------------------
+# Page Configuration
+# -------------------------------
+st.set_page_config(
+    page_title="Fraudulent Job Detection System",
+    page_icon="🛡️",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# -----------------------------
+# Sidebar
+# -----------------------------
+st.sidebar.title("🛡️ Fraud Detection System")
+
+st.sidebar.markdown("""
+### About
+
+This application uses a Machine Learning Support Vector Machine (SVM) model to classify job advertisements as either:
+
+- ✅ Genuine
+- 🚨 Fraudulent
+
+The model was trained using TF-IDF text features extracted from job descriptions.
+
+---
+
+### Machine Learning Model
+
+- Algorithm: Support Vector Machine (SVM)
+- Feature Extraction: TF-IDF
+- Language: Python
+- Framework: Streamlit
+
+---
+
+### Developed For
+
+BSc (Hons) Computing with Cyber Security Technology
+
+Northumbria University
+""")
+
 # Load the trained model
 model = joblib.load("svm_model.pkl")
 
@@ -33,15 +76,35 @@ def clean_text(text):
 # Streamlit User Interface
 # -------------------------------
 
-st.title("Fraudulent Job Detection System")
+st.title("🛡️ Fraudulent Job Detection System")
 
-st.write(
-    "Enter a job description below to determine whether it is Genuine or Fraudulent."
-)
+st.markdown("""
+### Machine Learning-Based Fraud Detection
+
+This application analyses job advertisement text using a trained **Support Vector Machine (SVM)** model.
+
+Paste a job description below and click **Predict** to determine whether the advertisement is likely to be **Genuine** or **Fraudulent**.
+
+---
+""")
 
 job_text = st.text_area(
-    "Job Description",
-    height=250
+    "📄 Enter Job Description",
+    height=300,
+    placeholder="""Example:
+
+Software Engineer
+
+Responsibilities:
+- Develop Python applications
+- Collaborate with the engineering team
+- Maintain software systems
+
+Requirements:
+- Bachelor's degree
+- 2+ years experience
+- Strong communication skills
+"""
 )
 
 if st.button("Predict"):
@@ -63,11 +126,76 @@ if st.button("Predict"):
         # Generate confidence score
         confidence = model.predict_proba(text_vector).max() * 100
 
-        # Display the result
-        if prediction == 0:
-            st.success("Prediction: Genuine Job")
-        else:
-            st.error("Prediction: Fraudulent Job")
+        # ----------------------------------
+# Prediction Dashboard
+# ----------------------------------
 
-        # Display confidence score
-        st.info(f"Confidence Score: {confidence:.2f}%")
+st.markdown("---")
+st.header("📊 Prediction Dashboard")
+
+# Determine labels
+prediction_label = "Genuine" if prediction == 0 else "Fraudulent"
+status = "Safe" if prediction == 0 else "High Risk"
+
+# Create three columns
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric(
+        label="Prediction",
+        value=prediction_label
+    )
+
+with col2:
+    st.metric(
+        label="Confidence",
+        value=f"{confidence:.2f}%"
+    )
+
+with col3:
+    st.metric(
+        label="Algorithm",
+        value="SVM"
+    )
+
+# Second Row
+col4, col5, col6 = st.columns(3)
+
+with col4:
+    st.metric(
+        label="Feature Extraction",
+        value="TF-IDF"
+    )
+
+with col5:
+    st.metric(
+        label="Dataset",
+        value="Fake Jobs"
+    )
+
+with col6:
+    st.metric(
+        label="Status",
+        value=status
+    )
+
+st.write("")
+
+# Progress Bar
+st.progress(min(confidence / 100, 1.0))
+
+# Colour result
+
+if prediction == 0:
+    st.success("✅ Genuine Job Advertisement")
+else:
+    st.error("🚨 Fraudulent Job Advertisement")
+
+# Confidence message
+
+if confidence >= 90:
+    st.info("🟢 High Confidence Prediction")
+elif confidence >= 70:
+    st.warning("🟡 Moderate Confidence Prediction")
+else:
+    st.error("🔴 Low Confidence Prediction")
