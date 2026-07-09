@@ -4,6 +4,7 @@ import streamlit as st
 import joblib
 import re
 import string
+import time
 
 # -------------------------------
 # Page Configuration
@@ -148,6 +149,8 @@ if st.button("🔍 Analyse Advertisement", use_container_width=True):
 
     else:
 
+        start_time = time.time()
+
         # Clean the input text
         cleaned_text = clean_text(job_text)
 
@@ -159,6 +162,8 @@ if st.button("🔍 Analyse Advertisement", use_container_width=True):
 
         # Generate confidence score
         confidence = model.predict_proba(text_vector).max() * 100
+
+        prediction_time = time.time() - start_time
 
         # ----------------------------------
         # Prediction Dashboard
@@ -203,8 +208,8 @@ if st.button("🔍 Analyse Advertisement", use_container_width=True):
 
         with col5:
             st.metric(
-                label="Dataset",
-                value="Fake Jobs"
+                label="Prediction Time",
+                value=f"{prediction_time:.3f} sec"
             )
 
         with col6:
