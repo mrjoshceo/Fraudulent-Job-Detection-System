@@ -105,8 +105,7 @@ st.markdown("""
 <h1>🛡️ Fraudulent Job Detection System</h1>
 
 <p>
-Detect potentially fraudulent job advertisements using an Artificial Intelligence (AI) model.
-Paste a job advertisement below to receive an instant prediction and confidence score.
+An Artificial Intelligence (AI)-powered application designed to identify potentially fraudulent job advertisements and support safer online recruitment.
 </p>
 
 </div>
