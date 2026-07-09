@@ -107,7 +107,7 @@ Requirements:
 """
 )
 
-if st.button("Predict"):
+if st.button("🔍 Analyse Advertisement", use_container_width=True):
 
     if job_text.strip() == "":
         st.warning("Please enter a job description.")
@@ -127,75 +127,75 @@ if st.button("Predict"):
         confidence = model.predict_proba(text_vector).max() * 100
 
         # ----------------------------------
-# Prediction Dashboard
-# ----------------------------------
+        # Prediction Dashboard
+        # ----------------------------------
 
-st.markdown("---")
-st.header("📊 Prediction Dashboard")
+        st.markdown("---")
+        st.header("📊 Prediction Dashboard")
 
-# Determine labels
-prediction_label = "Genuine" if prediction == 0 else "Fraudulent"
-status = "Safe" if prediction == 0 else "High Risk"
+        # Determine labels
+        prediction_label = "Genuine" if prediction == 0 else "Fraudulent"
+        status = "Safe" if prediction == 0 else "High Risk"
 
-# Create three columns
-col1, col2, col3 = st.columns(3)
+        # Create three columns
+        col1, col2, col3 = st.columns(3)
 
-with col1:
-    st.metric(
-        label="Prediction",
-        value=prediction_label
-    )
+        with col1:
+            st.metric(
+                label="Prediction",
+                value=prediction_label
+            )
 
-with col2:
-    st.metric(
-        label="Confidence",
-        value=f"{confidence:.2f}%"
-    )
+        with col2:
+            st.metric(
+                label="Confidence",
+                value=f"{confidence:.2f}%"
+            )
 
-with col3:
-    st.metric(
-        label="Algorithm",
-        value="SVM"
-    )
+        with col3:
+            st.metric(
+                label="Algorithm",
+                value="SVM"
+            )
 
-# Second Row
-col4, col5, col6 = st.columns(3)
+        # Second Row
+        col4, col5, col6 = st.columns(3)
 
-with col4:
-    st.metric(
-        label="Feature Extraction",
-        value="TF-IDF"
-    )
+        with col4:
+            st.metric(
+                label="Feature Extraction",
+                value="TF-IDF"
+            )
 
-with col5:
-    st.metric(
-        label="Dataset",
-        value="Fake Jobs"
-    )
+        with col5:
+            st.metric(
+                label="Dataset",
+                value="Fake Jobs"
+            )
 
-with col6:
-    st.metric(
-        label="Status",
-        value=status
-    )
+        with col6:
+            st.metric(
+                label="Status",
+                value=status
+            )
 
-st.write("")
+        st.write("")
 
-# Progress Bar
-st.progress(min(confidence / 100, 1.0))
+        # Progress Bar
+        st.progress(min(confidence / 100, 1.0))
 
-# Colour result
+        # Colour result
 
-if prediction == 0:
-    st.success("✅ Genuine Job Advertisement")
-else:
-    st.error("🚨 Fraudulent Job Advertisement")
+        if prediction == 0:
+            st.success("✅ Genuine Job Advertisement")
+        else:
+            st.error("🚨 Fraudulent Job Advertisement")
 
-# Confidence message
+        # Confidence message
 
-if confidence >= 90:
-    st.info("🟢 High Confidence Prediction")
-elif confidence >= 70:
-    st.warning("🟡 Moderate Confidence Prediction")
-else:
-    st.error("🔴 Low Confidence Prediction")
+        if confidence >= 90:
+            st.info("🟢 High Confidence Prediction")
+        elif confidence >= 70:
+            st.warning("🟡 Moderate Confidence Prediction")
+        else:
+            st.error("🔴 Low Confidence Prediction")
