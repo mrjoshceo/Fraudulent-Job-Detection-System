@@ -105,9 +105,8 @@ st.markdown("""
 <h1>🛡️ Fraudulent Job Detection System</h1>
 
 <p>
-AI-Powered Detection of Fraudulent Job Advertisements using
-<strong>Support Vector Machine (SVM)</strong> and
-<strong>TF-IDF Feature Extraction</strong>.
+Detect potentially fraudulent job advertisements using an Artificial Intelligence (AI) model.
+Paste a job advertisement below to receive an instant prediction and confidence score.
 </p>
 
 </div>
