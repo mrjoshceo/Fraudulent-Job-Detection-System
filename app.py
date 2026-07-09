@@ -114,6 +114,16 @@ AI-Powered Detection of Fraudulent Job Advertisements using
 
 """, unsafe_allow_html=True)
 
+st.markdown("""
+### 📄 Job Advertisement
+
+Paste the complete job advertisement below for machine learning analysis.
+
+The system will extract TF-IDF features and classify the advertisement as either **Genuine** or **Fraudulent** using the trained Support Vector Machine (SVM) model.
+
+---
+""")
+
 job_text = st.text_area(
     "📄 Enter Job Description",
     height=300,
