@@ -73,39 +73,46 @@ def clean_text(text):
 
 
 # -------------------------------
-# Streamlit User Interface
+# Professional Banner
 # -------------------------------
 
-st.title("🛡️ Fraudulent Job Detection System")
-
 st.markdown("""
-### Machine Learning-Based Fraud Detection
+<style>
 
-This application analyses job advertisement text using a trained **Support Vector Machine (SVM)** model.
+.banner{
+    background: linear-gradient(90deg,#0f4c81,#1f78d1);
+    padding:35px;
+    border-radius:15px;
+    color:white;
+    margin-bottom:25px;
+}
 
-Paste a job description below and click **Predict** to determine whether the advertisement is likely to be **Genuine** or **Fraudulent**.
+.banner h1{
+    margin:0;
+    font-size:42px;
+}
 
----
-""")
+.banner p{
+    margin-top:12px;
+    font-size:19px;
+    color:#f5f5f5;
+}
 
-job_text = st.text_area(
-    "📄 Enter Job Description",
-    height=300,
-    placeholder="""Example:
+</style>
 
-Software Engineer
+<div class="banner">
 
-Responsibilities:
-- Develop Python applications
-- Collaborate with the engineering team
-- Maintain software systems
+<h1>🛡️ Fraudulent Job Detection System</h1>
 
-Requirements:
-- Bachelor's degree
-- 2+ years experience
-- Strong communication skills
-"""
-)
+<p>
+AI-Powered Detection of Fraudulent Job Advertisements using
+<strong>Support Vector Machine (SVM)</strong> and
+<strong>TF-IDF Feature Extraction</strong>.
+</p>
+
+</div>
+
+""", unsafe_allow_html=True)
 
 if st.button("🔍 Analyse Advertisement", use_container_width=True):
 
