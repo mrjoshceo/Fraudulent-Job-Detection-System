@@ -2,8 +2,6 @@
 # Import required libraries
 import streamlit as st
 import joblib
-import re
-import string
 import time
 
 # -------------------------------
@@ -29,7 +27,7 @@ This application uses a Machine Learning Support Vector Machine (SVM) model to c
 - ✅ Genuine
 - 🚨 Fraudulent
 
-The model was trained using TF-IDF text features extracted from job descriptions.
+The model was trained using TF-IDF text features extracted from job advertisement content.
 
 ---
 
@@ -54,24 +52,6 @@ model = joblib.load("svm_model.pkl")
 
 # Load the TF-IDF vectorizer
 vectorizer = joblib.load("tfidf_vectorizer.pkl")
-
-# Function to clean text
-def clean_text(text):
-
-    # Convert to lowercase
-    text = text.lower()
-
-    # Remove punctuation
-    text = text.translate(str.maketrans('', '', string.punctuation))
-
-    # Remove numbers
-    text = re.sub(r'\d+', '', text)
-
-    # Remove extra spaces
-    text = re.sub(r'\s+', ' ', text).strip()
-
-    return text
-
 
 # -------------------------------
 # Professional Banner
@@ -151,11 +131,8 @@ if st.button("🔍 Analyse Advertisement", use_container_width=True):
 
         start_time = time.time()
 
-        # Clean the input text
-        cleaned_text = clean_text(job_text)
-
-        # Convert text to TF-IDF features
-        text_vector = vectorizer.transform([cleaned_text])
+        # Convert the input text to TF-IDF features
+        text_vector = vectorizer.transform([job_text])
 
         # Make prediction
         prediction = model.predict(text_vector)[0]
@@ -223,15 +200,32 @@ if st.button("🔍 Analyse Advertisement", use_container_width=True):
         # Progress Bar
         st.progress(min(confidence / 100, 1.0))
 
-        # Colour result
+        st.write("")
 
+        # Prediction Result
         if prediction == 0:
-            st.success("✅ Genuine Job Advertisement")
+
+            st.success("""
+### ✅ Prediction: Genuine Job Advertisement
+
+The advertisement appears to be legitimate based on the machine learning model's analysis.
+
+Applicants should still verify the employer before submitting personal information.
+""")
+
         else:
-            st.error("🚨 Fraudulent Job Advertisement")
 
-        # Confidence message
+            st.error("""
+### 🚨 Prediction: Fraudulent Job Advertisement
 
+This advertisement contains characteristics commonly associated with fraudulent job postings.
+
+Applicants should avoid sending money or personal information until the employer has been independently verified.
+""")
+
+        st.write("")
+
+        # Confidence Message
         if confidence >= 90:
             st.info("🟢 High Confidence Prediction")
         elif confidence >= 70:
